@@ -14,9 +14,16 @@ tweets <- read_csv("C:/Users/wilmd/OneDrive/Desktop/python_env/env/Collegiate_Ne
 articles <- read_csv("C:/Users/wilmd/OneDrive/Desktop/python_env/env/Collegiate_News_and_Sexual_Misconduct/Articles/articles_cleaned.csv", 
                             col_types = cols(X1 = col_skip(), 
                                              date = col_date(format = "%m/%d/%Y")))
+by_day <- read_csv("C:/Users/wilmd/OneDrive/Desktop/python_env/env/Collegiate_News_and_Sexual_Misconduct/Analyses/counts_by_day.csv", 
+                          col_types = cols(date = col_date(format = "%m/%d/%Y")))
+
 View(tweets)
 View(articles)
+View(by_day)
 
+#########################
+#Histograms
+#########################
 df <- tweets %>%
   filter(location == "Wisconsin")
 ggplot(df, aes(x = created_at)) +
@@ -29,3 +36,17 @@ df <- articles %>%
 ggplot(df, aes(x = date)) +
   geom_histogram(bins = 50) +
   labs(title="UMD Articles")
+
+###########################
+#counts by day
+###########################
+
+counts <- by_day %>%
+  filter(location == "Stanford") %>%
+  filter(date > "2010-01-01")
+
+ggplot(counts, aes(date, tweet_count, colour = "Tweets")) + 
+  scale_colour_manual("", breaks = c("Tweets", "Articles"),
+                      values = c("Tweets" = "blue", "Articles" = "red")) +
+  geom_smooth() +
+  geom_smooth(data = counts, aes(date, article_count, colour = "Articles"))
