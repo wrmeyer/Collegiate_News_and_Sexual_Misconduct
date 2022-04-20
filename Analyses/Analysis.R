@@ -1,5 +1,6 @@
 library(readr)
 library(tidyverse)
+library(gghighlight)
 tweets <- read_csv("C:/Users/Wil/Desktop/GetOldTweets/TwitterSP2022/Collegiate_News_and_Sexual_Misconduct/Tweets/tweets_cleaned.csv", 
                            col_types = cols(X1 = col_skip(), `Unnamed: 0` = col_skip(), 
                                             geo = col_skip(), id = col_character(), 
@@ -24,14 +25,15 @@ View(tweets)
 View(articles)
 View(by_day)
 
-#########################
-#Histograms
-#########################
+############Histograms#############
+
 df <- tweets %>%
-  filter(location == "UMD")
+  filter(location == "Stanford")
 ggplot(df, aes(x = created_at)) +
-  geom_histogram(bins = 100) +
-  labs(title="UMD Tweets")
+  geom_histogram(bins = 110) +
+  ylim(0, 1000) +
+  labs(title="Stanford Tweets", y = "Count", x = "Date") +
+  theme_classic()
 
 df <- articles %>%
   filter(location == "UMD") %>%
@@ -40,31 +42,49 @@ ggplot(df, aes(x = date)) +
   geom_histogram(bins = 50) +
   labs(title="UMD Articles")
 
-###########################
-#counts by day
-###########################
+###########Daily Counts################
+
 
 counts <- by_day %>%
-  filter(location == "Wisconsin") %>%
-  filter(date > "2012-01-01") %>%
-  filter(date < "2014-01-01")
+  filter(location == "IUB") %>%
+  filter(date > "2011-01-01")
 
 ggplot(counts, aes(date, tweet_count, colour = "Tweets")) + 
   scale_colour_manual("", breaks = c("Tweets", "Articles"),
                       values = c("Tweets" = "blue", "Articles" = "red")) +
   geom_smooth() +
   geom_smooth(data = counts, aes(date, article_count, colour = "Articles"))+
-  labs(title="Wisconsin")
+  labs(title="IUB") +
+  ylim(0,NA)
 
-###########################
-#seasonality
-###########################
+
+###########Effects Decay Correlations################
+effects_decay <- by_day %>%
+  filter(location == "UMD") %>%
+  filter(date > "2011-01-01")
+
+ggplot(effects_decay, aes(article_coverage, tweet_coverage)) +
+  geom_smooth() +
+  theme_classic() +
+  labs(x = "Collegiate News Coverage (Effects Decay Value)", y = "Tweet Coverage", title = "UMD", caption = "(p-value: 4.467e-05, cor: 0.06686)")
+
+cor.test(effects_decay$article_coverage, effects_decay$tweet_coverage)
+
+
+###########Seasonality################
+
 averages <- yearly_averages %>%
-  filter(location == "Wisconsin")
+  filter(location == "IUB") %>%
+  mutate(average_tweets = average_tweets*7)
   
 
-ggplot(averages, aes(date, average_tweets, colour = "Blue")) + 
-  geom_smooth() + labs(title="Wisconsin Averages")
-  
-  # geom_smooth(data = averages, aes(date, average_articles, colour = "Articles"))+
-  # labs(title="Averages")
+ggplot(averages, aes(date, average_tweets, colour = "Tweets")) + 
+  scale_colour_manual("", breaks = c("Tweets", "Collegiate News Coverage"),
+                      values = c("Tweets" = "red", "Collegiate News Coverage" = "blue")) + 
+  geom_smooth() + labs(title="IUB Averages", y = "Averaged Values", x = "Date")+
+  geom_smooth(data = averages, aes(date, coverage, colour = "Collegiate News Coverage"))+
+  geom_vline(xintercept = as.numeric(as.Date("1999-05-07")), lwd = 1)+
+  geom_vline(xintercept = as.numeric(as.Date("1999-08-20")), lwd = 1)+
+  theme_classic()+
+  scale_x_date(date_labels = "%b")
+
