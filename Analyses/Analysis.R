@@ -17,7 +17,7 @@ articles <- read_csv("C:/Users/Wil/Desktop/GetOldTweets/TwitterSP2022/Collegiate
                             col_types = cols(X1 = col_skip(), 
                                              date = col_date(format = "%m/%d/%Y")))
 by_day <- read_csv("C:/Users/Wil/Desktop/GetOldTweets/TwitterSP2022/Collegiate_News_and_Sexual_Misconduct/Analyses/counts_by_day.csv", 
-                          col_types = cols(date = col_date(format = "%m/%d/%Y")))
+                          col_types = cols(date = col_date(format = "%Y-%m-%d")))
 
 yearly_averages <- read_csv("C:/Users/Wil/Desktop/GetOldTweets/TwitterSP2022/Collegiate_News_and_Sexual_Misconduct/Analyses/yearly_averages.csv", 
                             col_types = cols(...1 = col_skip(), date = col_date(format = "%Y-%m-%d")))
@@ -38,7 +38,7 @@ articles <- read_csv("C:/Users/wilmd/OneDrive/Desktop/python_env/env/Collegiate_
                      col_types = cols(X1 = col_skip(), 
                                       date = col_date(format = "%m/%d/%Y")))
 by_day <- read_csv("C:/Users/wilmd/OneDrive/Desktop/python_env/env/Collegiate_News_and_Sexual_Misconduct/Analyses/counts_by_day.csv", 
-                   col_types = cols(date = col_date(format = "%m/%d/%Y")))
+                   col_types = cols(date = col_date(format = "%Y-%m-%d")))
 
 yearly_averages <- read_csv("C:/Users/wilmd/OneDrive/Desktop/python_env/env/Collegiate_News_and_Sexual_Misconduct/Analyses/yearly_averages.csv", 
                             col_types = cols(...1 = col_skip(), date = col_date(format = "%Y-%m-%d")))
@@ -83,7 +83,6 @@ ggplot(counts, aes(date, tweet_count, colour = "Tweets")) +
 ###########Effects Decay Correlations################
 require(lubridate)
 half_life_articles <- by_day %>%
-  filter(date > "2021-09-01") %>%
   .$date %>% 
   unique %>% 
   map_dfr(~ {
@@ -96,35 +95,62 @@ half_life_articles <- by_day %>%
       mutate(date = .x) %>%
       ungroup
   })
-    
+
+by_day <- merge(half_life_articles, by_day, by = (c("location", "date")))
+####
+require(lubridate)
+half_life_tweets <- by_day %>%
+  .$date %>% 
+  unique %>% 
+  map_dfr(~ {
+    by_day %>% 
+      filter(date <= .x) %>% 
+      group_by(location) %>% 
+      mutate(elapse = as.numeric(.x - date),
+             weighted = tweet_count*exp(1)^-(.231*elapse)) %>% 
+      summarise(hl_tweets = sum(weighted)) %>%
+      mutate(date = .x) %>%
+      ungroup
+  })
+
+by_day <- merge(half_life_tweets, by_day, by = (c("location", "date")))
+write.csv(by_day,"C:/Users/Wil/Desktop/GetOldTweets/TwitterSP2022/Collegiate_News_and_Sexual_Misconduct/Analyses/counts_by_day.csv", row.names = FALSE)
+
+####
 
 effects_decay <- by_day %>%
-  filter(location == "Stanford") %>%
+  filter(location == "Wisconsin") %>%
   filter(date > "2011-01-01")
 
-ggplot(effects_decay, aes(article_coverage, tweet_coverage)) +
+ggplot(effects_decay, aes(hl_articles, tweet_count)) +
   geom_smooth() +
   theme_classic() +
-  labs(x = "Collegiate News Coverage (Effects Decay Value)", y = "Tweet Coverage", title = "Stanford", caption = "(p-value: 4.467e-05, cor: 0.06686)")
+  labs(x = "Collegiate News Coverage (Effects Decay Value)", y = "Twitter Coverage", title = "Wisconsin", caption = "(p-value: 8.631e-16, cor: 0.131)")
 
-cor.test(effects_decay$article_coverage, effects_decay$tweet_coverage)
-
+cor.test(effects_decay$hl_articles, effects_decay$tweet_count)
 
 ###########Seasonality################
 
 averages <- yearly_averages %>%
-  filter(location == "UMN") %>%
-  mutate(across(c(average_tweets,coverage), ~ .x - mean(.x)/sd(.x)))
-  # mutate(average_tweets = average_tweets*7)
-  
+  filter(location == "Stanford") %>%
+  mutate(average_tweets = average_tweets*13) %>%
+  mutate(hl_tweets = hl_tweets*5)
 
+###
 ggplot(averages, aes(date, average_tweets, colour = "Tweets")) + 
+  ###
   scale_colour_manual("", breaks = c("Tweets", "Collegiate News Coverage"),
-                      values = c("Tweets" = "red", "Collegiate News Coverage" = "blue")) + 
-  geom_smooth() + labs(title="UMN Averages", y = "Averaged Values", x = "Date")+
-  geom_smooth(data = averages, aes(date, coverage, colour = "Collegiate News Coverage"))+
-  geom_vline(xintercept = as.numeric(as.Date("1999-05-07")), lwd = 1)+
-  geom_vline(xintercept = as.numeric(as.Date("1999-08-20")), lwd = 1)+
-  theme_classic()+
-  scale_x_date(date_labels = "%b")
+                      values = c("Tweets" = "red", "Collegiate News Coverage" = "blue")) +
+  
+  geom_smooth() + labs(title="Stanford Averages", y = "Averaged Values", x = "Date")+
+  geom_line()+
+  ###
+  geom_smooth(data = averages, aes(date, hl_articles, colour = "Collegiate News Coverage"))+
+  geom_line(data = averages, aes(date, hl_articles, colour = "Collegiate News Coverage"))+
+  ###
+  geom_vline(xintercept = as.numeric(as.Date("1999-06-01")), lwd = 1)+
+  geom_vline(xintercept = as.numeric(as.Date("1999-09-08")), lwd = 1)+
+  theme_classic() +
+  scale_x_date(date_labels = "%b")+
+  ylim(0, 15)
 
