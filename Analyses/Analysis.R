@@ -154,3 +154,32 @@ ggplot(averages, aes(date, average_tweets, colour = "Tweets")) +
   scale_x_date(date_labels = "%b")+
   ylim(0, 15)
 
+###########WSS Cluster Visualization################
+num_clusters <- c(0.01, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
+Sum_of_Squares <- c(0.01, 1021, 1370, 1585, 1745, 1901, 1946, 2008, 2214, 2155, 2348, 2396, 2313, 2503, 2569, 2437, 2650, 2678, 2713, 2763, 2794)
+gwss <- data.frame(num_clusters, Sum_of_Squares)
+
+num_clusters <- c(0.01, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
+Sum_of_Squares <- c(0.01, 7649, 8052, 8279, 8466, 8581, 8808, 8877, 8874, 8983, 9127, 9094, 9140, 9226, 9261, 9342, 9384, 9372, 9430, 9455, 9491)
+twss <- data.frame(num_clusters, Sum_of_Squares)
+
+ggplot(gwss, aes(x = num_clusters, y = Sum_of_Squares)) +
+  geom_point()+
+  geom_smooth(se = FALSE, method = "gam", formula = y ~ s(log(x))) +
+  labs(title = "Google News Pre-trained Model Sum of Squares", x = "Number of Clusters", y = "Sum of Squares")+
+  theme_classic()
+
+###########Distortion Cluster Visualization################
+num_clusters <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
+distortion <- c(3.0379713360664553, 3.0170742255780856, 2.9801884845949043, 2.961491589434526, 2.9472396914592554, 2.9268935978546744, 2.927842481065104, 2.9084443192121374, 2.9132238202398453, 2.9070917848259747, 2.9059254002771073, 2.8799674275734604, 2.8756945973247694, 2.875552147043596, 2.8650273537577755, 2.860946899827552, 2.855750244047214, 2.8530527157471117, 2.8465325259370124, 2.846556450925078)
+gdist <- data.frame(num_clusters, distortion)
+
+num_clusters <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
+distortion <- c(1.3818723503921926, 1.3230707463690499, 1.160777385497667, 1.127530934748275, 1.1097885676229928, 1.0816233796562393, 1.0712537155780608, 1.0612657653071584, 1.0502491944079542, 1.0437309817714397, 1.0303826728128485, 1.0209542996268537, 1.0135153232955758, 1.0063790883436299, 1.0079600150110013, 0.9847645899185425, 0.983939113515407, 0.9758949738318188, 0.9718707517124919, 0.9620019363638453)
+tdist <- data.frame(num_clusters, distortion)
+
+ggplot(gdist, aes(x = num_clusters, y = distortion)) +
+  geom_point()+
+  geom_smooth(se = FALSE, method = "gam", formula = y ~ s(log(x))) +
+  labs(title = "Google News Pre-trained Model Distortion", x = "Number of Clusters", y = "Distortion")+
+  theme_classic()
