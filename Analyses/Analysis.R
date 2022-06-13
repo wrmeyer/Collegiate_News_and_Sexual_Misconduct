@@ -183,3 +183,14 @@ ggplot(gdist, aes(x = num_clusters, y = distortion)) +
   geom_smooth(se = FALSE, method = "gam", formula = y ~ s(log(x))) +
   labs(title = "Google News Pre-trained Model Distortion", x = "Number of Clusters", y = "Distortion")+
   theme_classic()
+
+###########Coherence Topic Visualization################
+num_topics <- c(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)
+coherence <- c(0.3200155663309372,0.3501589202633249,0.3710416963143046,0.3319701142107471,0.3886366105043175,0.34575733356444005,0.3791220873199293,0.36862315615513125,0.39069825247853124,0.39839163422759183,0.3833009113960846,0.3628397262538243,0.3895807344479638)
+clist <- data.frame(num_topics, coherence)
+
+ggplot(clist, aes(x = num_topics, y = coherence)) +
+  geom_point()+
+  geom_line(se = FALSE, method = "gam") +
+  labs(title = "LDA Num of Topics Coherence", x = "Number of Topics", y = "Coherence")+
+  theme_classic()
