@@ -1,0 +1,35 @@
+[0627/133242.422:ERROR:broker_win.cc(134)] Error sending sync broker message: The pipe is being closed. (0xE8)
+[0627/133242.423:ERROR:command_buffer_proxy_impl.cc(101)] ContextResult::kFatalFailure: AllocateAndMapSharedMemory failed
+[0627/133310.647:ERROR:render_media_log.cc(30)] MediaEvent: MEDIA_ERROR_LOG_ENTRY {"error":"FFmpegDemuxer: no supported streams"}
+[0627/133310.647:ERROR:render_media_log.cc(30)] MediaEvent: MEDIA_ERROR_LOG_ENTRY {"error":"FFmpegDemuxer: no supported streams"}
+[0627/133310.651:ERROR:render_media_log.cc(30)] MediaEvent: PIPELINE_ERROR DEMUXER_ERROR_NO_SUPPORTED_STREAMS
+[0627/133310.651:ERROR:render_media_log.cc(30)] MediaEvent: PIPELINE_ERROR DEMUXER_ERROR_NO_SUPPORTED_STREAMS
+[0627/134037.967:ERROR:render_media_log.cc(30)] MediaEvent: MEDIA_ERROR_LOG_ENTRY {"error":"FFmpegDemuxer: no supported streams"}
+[0627/134037.968:ERROR:render_media_log.cc(30)] MediaEvent: MEDIA_ERROR_LOG_ENTRY {"error":"FFmpegDemuxer: no supported streams"}
+[0627/134037.968:ERROR:render_media_log.cc(30)] MediaEvent: PIPELINE_ERROR DEMUXER_ERROR_NO_SUPPORTED_STREAMS
+[0627/134037.968:ERROR:render_media_log.cc(30)] MediaEvent: PIPELINE_ERROR DEMUXER_ERROR_NO_SUPPORTED_STREAMS
+[0627/134200.588:ERROR:render_media_log.cc(30)] MediaEvent: MEDIA_ERROR_LOG_ENTRY {"error":"FFmpegDemuxer: no supported streams"}
+[0627/134200.589:ERROR:render_media_log.cc(30)] MediaEvent: PIPELINE_ERROR DEMUXER_ERROR_NO_SUPPORTED_STREAMS
+[0627/134200.589:ERROR:render_media_log.cc(30)] MediaEvent: MEDIA_ERROR_LOG_ENTRY {"error":"FFmpegDemuxer: no supported streams"}
+[0627/134200.589:ERROR:render_media_log.cc(30)] MediaEvent: PIPELINE_ERROR DEMUXER_ERROR_NO_SUPPORTED_STREAMS
+[0627/135225.849:ERROR:render_media_log.cc(30)] MediaEvent: MEDIA_ERROR_LOG_ENTRY {"error":"FFmpegDemuxer: no supported streams"}
+[0627/135225.849:ERROR:render_media_log.cc(30)] MediaEvent: MEDIA_ERROR_LOG_ENTRY {"error":"FFmpegDemuxer: no supported streams"}
+[0627/135225.849:ERROR:render_media_log.cc(30)] MediaEvent: PIPELINE_ERROR DEMUXER_ERROR_NO_SUPPORTED_STREAMS
+[0627/135225.849:ERROR:render_media_log.cc(30)] MediaEvent: PIPELINE_ERROR DEMUXER_ERROR_NO_SUPPORTED_STREAMS
+[0627/135259.014:ERROR:media_internals.cc(103)] Cannot get RenderProcessHost
+[0627/135259.017:ERROR:media_internals.cc(103)] Cannot get RenderProcessHost
+[0627/145725.369:ERROR:broker_win.cc(134)] Error sending sync broker message: The pipe is being closed. (0xE8)
+[0627/145725.370:ERROR:command_buffer_proxy_impl.cc(101)] ContextResult::kFatalFailure: AllocateAndMapSharedMemory failed
+[0627/145725.398:ERROR:broker_win.cc(134)] Error sending sync broker message: The pipe is being closed. (0xE8)
+[0627/145851.754:ERROR:render_media_log.cc(30)] MediaEvent: MEDIA_ERROR_LOG_ENTRY {"error":"FFmpegDemuxer: no supported streams"}
+[0627/145851.754:ERROR:render_media_log.cc(30)] MediaEvent: MEDIA_ERROR_LOG_ENTRY {"error":"FFmpegDemuxer: no supported streams"}
+[0627/145851.779:ERROR:render_media_log.cc(30)] MediaEvent: PIPELINE_ERROR DEMUXER_ERROR_NO_SUPPORTED_STREAMS
+[0627/145851.779:ERROR:render_media_log.cc(30)] MediaEvent: PIPELINE_ERROR DEMUXER_ERROR_NO_SUPPORTED_STREAMS
+[0627/150713.570:ERROR:render_media_log.cc(30)] MediaEvent: MEDIA_ERROR_LOG_ENTRY {"error":"FFmpegDemuxer: no supported streams"}
+[0627/150713.570:ERROR:render_media_log.cc(30)] MediaEvent: MEDIA_ERROR_LOG_ENTRY {"error":"FFmpegDemuxer: no supported streams"}
+[0627/150713.570:ERROR:render_media_log.cc(30)] MediaEvent: PIPELINE_ERROR DEMUXER_ERROR_NO_SUPPORTED_STREAMS
+[0627/150713.571:ERROR:render_media_log.cc(30)] MediaEvent: PIPELINE_ERROR DEMUXER_ERROR_NO_SUPPORTED_STREAMS
+[0627/150800.793:ERROR:render_media_log.cc(30)] MediaEvent: MEDIA_ERROR_LOG_ENTRY {"error":"FFmpegDemuxer: no supported streams"}
+[0627/150800.793:ERROR:render_media_log.cc(30)] MediaEvent: MEDIA_ERROR_LOG_ENTRY {"error":"FFmpegDemuxer: no supported streams"}
+[0627/150800.795:ERROR:render_media_log.cc(30)] MediaEvent: PIPELINE_ERROR DEMUXER_ERROR_NO_SUPPORTED_STREAMS
+[0627/150800.795:ERROR:render_media_log.cc(30)] MediaEvent: PIPELINE_ERROR DEMUXER_ERROR_NO_SUPPORTED_STREAMS
